@@ -1,19 +1,48 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Backstage</title>
-  <meta name="description" content="Backstage — coming soon.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎭</text></svg>">
-  <link rel="stylesheet" href="/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=0.1, maximum-scale=5">
+<title>Restricted</title>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #0b0b0f; color: #eee;
+    font-family: system-ui, sans-serif; }
+  .wrap { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; }
+  input { padding: 12px 16px; font-size: 18px; border-radius: 8px; border: 1px solid #444;
+    background: #16161d; color: #fff; width: 260px; text-align: center; }
+  button { padding: 10px 28px; font-size: 16px; border-radius: 8px; border: 0; background: #e8e8f0; cursor: pointer; }
+  #msg { min-height: 1.4em; color: #ff6b6b; }
+  #taunt { display: none; max-width: 420px; text-align: center; color: #ffcf5c; font-size: 20px; }
+  /* Giant, far-off hint: only visible once the browser is zoomed out */
+  #hint { position: absolute; top: 600px; left: 1300px; font-size: 150px;
+    font-weight: 800; color: #7CFFB2; white-space: nowrap; }
+</style>
 </head>
 <body>
-  <main>
-    <h1>Hello Ameya Agarwal</h1>
-    <p class="lede">Backstage is coming soon.</p>
-    <p class="status"><span class="dot"></span><span id="status">Checking API…</span></p>
-  </main>
-  <script src="/app.js"></script>
+<div class="wrap">
+  <h2>Password, please.</h2>
+  <input id="pw" type="password" placeholder="enter password" autocomplete="off" autofocus>
+  <button id="go">Enter</button>
+  <div id="msg"></div>
+  <div id="taunt">Three strikes, genius. You're an idiot. Try zooming out.</div>
+</div>
+<div id="hint">add '-backstage' to the url</div>
+
+<script>
+  const PASSWORD = "CHANGE_ME";   // <-- set your password here
+  const TARGET = "/-backstage";   // <-- the backstage page
+  let tries = 0;
+
+  function attempt() {
+    const val = document.getElementById("pw").value;
+    if (val === PASSWORD) { window.location.href = TARGET; return; }
+    tries++;
+    document.getElementById("pw").value = "";
+    document.getElementById("msg").textContent = "Wrong. (" + tries + "/3)";
+    if (tries >= 3) document.getElementById("taunt").style.display = "block";
+  }
+  document.getElementById("go").onclick = attempt;
+  document.getElementById("pw").addEventListener("keydown", e => { if (e.key === "Enter") attempt(); });
+</script>
 </body>
 </html>
