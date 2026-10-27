@@ -31,13 +31,14 @@
 <div id="hint">add '-backstage' to the url</div>
 
 <script>
-  const PASSWORD = "CHANGE_ME";   // <-- set your password here
+  const PASSWORD = "PASSWORD PLEASE";   // decoded Polybius heading
+  const norm = s => s.toLowerCase().replace(/[^a-z0-9]/g, "");  // ignore case, spaces, punctuation
   const TARGET = "/-backstage";   // <-- the backstage page
   let tries = 0;
 
   function attempt() {
     const val = document.getElementById("pw").value;
-    if (val === PASSWORD) { window.location.href = TARGET; return; }
+    if (norm(val) === norm(PASSWORD)) { window.location.href = TARGET; return; }
     tries++;
     document.getElementById("pw").value = "";
     document.getElementById("msg").textContent = "Wrong. (" + tries + "/3)";
